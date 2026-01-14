@@ -1,0 +1,181 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+// Get all writing posts, sorted by date (newest first)
+const posts = (await getCollection('writing')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+---
+
+<BaseLayout title="Writing">
+  <div class="writing-page">
+    <header class="page-header">
+      <h1>Writing</h1>
+      <p class="intro">Essays, journals, and reflections on life, music, and everything in between.</p>
+    </header>
+
+    <div class="post-list">
+      {posts.map((post) => (
+        <article class="post-preview">
+          <h2>
+            <a href={`/writing/${post.slug}`}>{post.data.title}</a>
+          </h2>
+          <div class="meta">
+            <time datetime={post.data.date.toISOString()}>
+              {post.data.date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              })}
+            </time>
+            <span class="type-badge">{post.data.type}</span>
+          </div>
+          {post.data.excerpt && (
+            <p class="excerpt">{post.data.excerpt}</p>
+          )}
+          {post.data.tags && post.data.tags.length > 0 && (
+            <div class="tags">
+              {post.data.tags.map(tag => (
+                <span class="tag">#{tag}</span>
+              ))}
+            </div>
+          )}
+        </article>
+      ))}
+    </div>
+  </div>
+
+  <style>
+    .writing-page {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .page-header {
+      margin-bottom: 4rem;
+    }
+
+    .page-header h1 {
+      margin-bottom: 1rem;
+    }
+
+    .intro {
+      font-size: 1.25rem;
+      opacity: 0.85;
+      line-height: 1.6;
+    }
+
+    .post-list {
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+    }
+
+    .post-preview {
+      padding-bottom: 3rem;
+      border-bottom: 1px solid var(--color-text);
+      opacity: 0.95;
+      transition: opacity 0.2s ease;
+    }
+
+    .post-preview:hover {
+      opacity: 1;
+    }
+
+    .post-preview:last-child {
+      border-bottom: none;
+    }
+
+    .post-preview h2 {
+      margin-bottom: 0.75rem;
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      margin-top: 0;
+    }
+
+    .post-preview h2 a {
+      color: var(--color-text);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .post-preview h2 a:hover {
+      color: var(--color-primary);
+    }
+
+    .meta {
+      font-family: var(--font-ui);
+      font-size: 0.95rem;
+      opacity: 0.7;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .type-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      background: var(--color-primary);
+      color: var(--color-cream);
+      border-radius: 3px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: lowercase;
+      letter-spacing: 0.03em;
+    }
+
+    .excerpt {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      margin-bottom: 1rem;
+      opacity: 0.9;
+    }
+
+    .tags {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      font-family: var(--font-ui);
+      font-size: 0.9rem;
+    }
+
+    .tag {
+      opacity: 0.6;
+      transition: opacity 0.2s ease;
+      font-weight: 500;
+    }
+
+    .tag:hover {
+      opacity: 1;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .writing-page {
+        padding: 0 1rem;
+      }
+
+      .page-header {
+        margin-bottom: 3rem;
+      }
+
+      .post-list {
+        gap: 2.5rem;
+      }
+
+      .post-preview {
+        padding-bottom: 2.5rem;
+      }
+
+      .intro {
+        font-size: 1.1rem;
+      }
+
+      .excerpt {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</BaseLayout>

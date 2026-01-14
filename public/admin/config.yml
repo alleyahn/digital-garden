@@ -1,0 +1,26 @@
+backend:
+  name: git-gateway
+  branch: main # or master, depending on your repo
+
+# Uncomment if using Netlify
+# publish_mode: editorial_workflow
+
+media_folder: "public/stories"
+public_folder: "/stories"
+
+collections:
+  - name: "stories"
+    label: "Stories"
+    folder: "src/content/stories"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - {label: "ID", name: "id", widget: "string", hint: "Unique identifier (e.g., story-1, sunset-bali)"}
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Image", name: "image", widget: "image", hint: "Upload a 9:16 vertical image"}
+      - {label: "Alt Text", name: "alt", widget: "string", hint: "Describe the image for accessibility"}
+      - {label: "Caption", name: "caption", widget: "text", required: false}
+      - {label: "Duration (seconds)", name: "duration", widget: "number", default: 5, value_type: "int", min: 3, max: 15}
+      - {label: "Date Posted", name: "date", widget: "datetime"}
+      - {label: "Expires On", name: "date_expired", widget: "datetime", required: false, hint: "Optional: when should this story disappear?"}
+      - {label: "Content Warning", name: "content_warning", widget: "string", required: false}

@@ -1,0 +1,261 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import { Image } from 'astro:assets';
+
+interface Props {
+  title: string;
+  date: Date;
+  image: any;
+  camera?: string;
+  lens?: string;
+  film?: string;
+  location?: string;
+  tags?: string[];
+}
+
+const { title, date, image, camera, lens, film, location, tags } = Astro.props;
+
+const formattedDate = date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric'
+});
+---
+
+<BaseLayout title={title}>
+  <article class="photo-post">
+    <div class="photo-container">
+      <Image src={image} alt={title} />
+    </div>
+
+    <div class="photo-info">
+      <header class="photo-header">
+        <h1>{title}</h1>
+        <time datetime={date.toISOString()}>{formattedDate}</time>
+      </header>
+
+      {(camera || lens || film || location) && (
+        <div class="exif-data">
+          <h3>Details</h3>
+          <dl>
+            {camera && (
+              <>
+                <dt>Camera</dt>
+                <dd>{camera}</dd>
+              </>
+            )}
+            {lens && (
+              <>
+                <dt>Lens</dt>
+                <dd>{lens}</dd>
+              </>
+            )}
+            {film && (
+              <>
+                <dt>Film</dt>
+                <dd>{film}</dd>
+              </>
+            )}
+            {location && (
+              <>
+                <dt>Location</dt>
+                <dd>{location}</dd>
+              </>
+            )}
+          </dl>
+        </div>
+      )}
+
+      {tags && tags.length > 0 && (
+        <div class="tags">
+          {tags.map(tag => (
+            <a href={`/tags/${tag}`} class="tag">#{tag}</a>
+          ))}
+        </div>
+      )}
+
+      <div class="story">
+        <slot />
+      </div>
+
+      <nav class="photo-nav">
+        <a href="/photography" class="back-link">← Back to gallery</a>
+      </nav>
+    </div>
+  </article>
+
+  <style>
+    .photo-post {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .photo-container {
+      margin-bottom: 3rem;
+      border: 2px solid var(--color-text);
+      overflow: hidden;
+    }
+
+    .photo-container img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .photo-info {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .photo-header {
+      margin-bottom: 2.5rem;
+    }
+
+    .photo-header h1 {
+      margin-bottom: 0.5rem;
+    }
+
+    time {
+      display: block;
+      font-family: var(--font-ui);
+      font-size: 0.95rem;
+      opacity: 0.7;
+      font-weight: 500;
+    }
+
+    .exif-data {
+      background: var(--color-cream);
+      border: 2px solid var(--color-text);
+      padding: 2rem;
+      margin-bottom: 2.5rem;
+      font-family: var(--font-ui);
+    }
+
+    .exif-data h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1.5rem;
+      color: var(--color-primary);
+    }
+
+    .exif-data dl {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 0.75rem 1.5rem;
+      margin: 0;
+    }
+
+    .exif-data dt {
+      font-weight: 600;
+      color: var(--color-text);
+      opacity: 0.7;
+    }
+
+    .exif-data dd {
+      margin: 0;
+      font-weight: 400;
+    }
+
+    .tags {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+
+    .tag {
+      font-family: var(--font-ui);
+      font-size: 0.9rem;
+      padding: 0.5rem 1rem;
+      background: var(--color-cream);
+      border: 2px solid var(--color-text);
+      border-radius: 4px;
+      transition: all 0.2s ease;
+      font-weight: 500;
+    }
+
+    .tag:hover {
+      background: var(--color-primary);
+      color: var(--color-cream);
+      border-color: var(--color-primary);
+      transform: translateY(-2px);
+    }
+
+    .story {
+      font-size: 1.15rem;
+      line-height: 1.8;
+      margin-bottom: 3rem;
+    }
+
+    .story :global(p:first-child) {
+      font-size: 1.25rem;
+      line-height: 1.7;
+    }
+
+    .photo-nav {
+      padding-top: 2.5rem;
+      border-top: 1px solid var(--color-text);
+      opacity: 0.6;
+    }
+
+    .back-link {
+      font-family: var(--font-ui);
+      font-size: 0.95rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+    }
+
+    .back-link:hover {
+      opacity: 1;
+      transform: translateX(-4px);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .photo-container {
+        margin-bottom: 2rem;
+      }
+
+      .photo-info {
+        padding: 0 1rem;
+      }
+
+      .exif-data {
+        padding: 1.5rem;
+      }
+
+      .exif-data dl {
+        grid-template-columns: 100px 1fr;
+        gap: 0.5rem 1rem;
+      }
+
+      .story {
+        font-size: 1.05rem;
+      }
+
+      .story :global(p:first-child) {
+        font-size: 1.15rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .exif-data dl {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+      }
+
+      .exif-data dt {
+        font-weight: 700;
+      }
+
+      .exif-data dd {
+        margin-bottom: 1rem;
+      }
+    }
+  </style>
+</BaseLayout>

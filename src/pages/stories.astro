@@ -1,0 +1,156 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+// Get all stories, sorted by date (newest first)
+const allStories = (await getCollection('stories')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+
+// Generate OpenStories JSON feed
+const openStoriesFeed = {
+  version: "https://jsonfeed.org/version/1.1",
+  title: "Alleya's Stories",
+  feed_url: `${Astro.site}stories.json`,
+  _open_stories: {
+    version: "0.0.9"
+  },
+  items: allStories.map(story => ({
+    id: story.data.id,
+    content_text: story.data.title,
+    authors: [
+      {
+        name: "Alleya Hanifa",
+        url: Astro.site?.toString() || "https://yoursite.com"
+      }
+    ],
+    _open_stories: {
+      mime_type: "image/jpg",
+      url: story.data.image.src,
+      alt: story.data.alt,
+      caption: story.data.caption,
+      duration_in_seconds: story.data.duration,
+      ...(story.data.date_expired && { date_expired: story.data.date_expired.toISOString() }),
+      ...(story.data.content_warning && { content_warning: story.data.content_warning })
+    }
+  }))
+};
+---
+
+<BaseLayout title="Stories">
+  <div class="stories-page">
+    <header class="page-header">
+      <h1>Stories</h1>
+      <p class="intro">Daily ephemeral moments, captured like the good old days.</p>
+      <a href="/admin" class="admin-link">✏️ Add New Story</a>
+    </header>
+
+    <!-- OpenStories Web Component -->
+    <open-stories src="/stories.json"></open-stories>
+    
+    <div class="stories-info">
+      <h2>What are OpenStories?</h2>
+      <p>
+        Stories are small pieces of media (photos and short videos) that capture moments from daily life. 
+        They're meant to be ephemeral and casual – just like the old Instagram Stories, but on your own website!
+      </p>
+      <p>
+        Learn more about the <a href="https://github.com/dddddddddzzzz/OpenStories" target="_blank">OpenStories format</a>.
+      </p>
+    </div>
+  </div>
+
+  <!-- Load OpenStories Web Component -->
+  <script type="module" src="https://unpkg.com/@dddddddddzzzz/open-stories-element@latest"></script>
+
+  <style>
+    .stories-page {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .page-header {
+      margin-bottom: 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .page-header h1 {
+      margin-bottom: 1rem;
+    }
+
+    .intro {
+      font-size: 1.25rem;
+      opacity: 0.85;
+      line-height: 1.6;
+      flex: 1 1 100%;
+    }
+
+    .admin-link {
+      display: inline-block;
+      background: var(--color-accent);
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-family: var(--font-ui);
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: background 0.2s ease;
+    }
+
+    .admin-link:hover {
+      background: var(--color-primary);
+      color: white;
+    }
+
+    /* OpenStories Web Component Styling */
+    open-stories {
+      display: block;
+      margin: 3rem 0;
+      width: 100%;
+      min-height: 400px;
+    }
+
+    .stories-info {
+      margin-top: 4rem;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.5);
+      border: 2px solid var(--color-text);
+      border-radius: 12px;
+    }
+
+    .stories-info h2 {
+      margin-top: 0;
+      margin-bottom: 1rem;
+    }
+
+    .stories-info p {
+      margin-bottom: 1rem;
+      line-height: 1.7;
+    }
+
+    .stories-info a {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .intro {
+        font-size: 1.1rem;
+      }
+
+      .page-header {
+        flex-direction: column;
+      }
+    }
+  </style>
+</BaseLayout>
+
+<!-- Also generate stories.json endpoint -->
+<script is:inline define:vars={{ openStoriesFeed }}>
+  // This will be available at /stories.json
+  // We'll create a separate endpoint file for this
+</script>

@@ -1,16 +1,750 @@
 ---
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 
+// Get recent writing posts (2 most recent)
+const allWriting = await getCollection('writing');
+const recentWriting = allWriting
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 2);
+
+// Get featured photo (first one with featured: true, or most recent)
+const allPhotos = await getCollection('photography');
+const featuredPhoto = allPhotos.find(photo => photo.data.featured === true) || 
+  allPhotos.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())[0];
+
+// Get latest music track with rendered content
+const allMusic = await getCollection('music');
+const latestMusicEntry = allMusic.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())[0];
+let latestMusic = null;
+if (latestMusicEntry) {
+  const { Content } = await latestMusicEntry.render();
+  latestMusic = {
+    ...latestMusicEntry,
+    Content
+  };
+}
 ---
 
+<!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="A digital garden exploring photography, writing, and music" />
+    <title>Alleya Hanifa</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <style is:global>
+      /* CSS Variables */
+      :root {
+        --color-primary: #215DB1;
+        --color-cream: #F0EEE9;
+        --color-accent: #DB4E66;
+        --color-text: #1a1a1a;
+        --font-body: 'Crimson Pro', Georgia, serif;
+        --font-ui: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: var(--font-body);
+        background: var(--color-cream);
+        color: var(--color-text);
+        line-height: 1.7;
+        font-size: 18px;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        padding: 3rem;
+      }
+
+      h1, h2, h3, h4, h5, h6 {
+        font-family: var(--font-body);
+        font-weight: 700;
+        line-height: 1.2;
+        margin-bottom: 1rem;
+        color: var(--color-text);
+      }
+
+      a {
+        color: var(--color-primary);
+        text-decoration: none;
+        transition: color 0.2s ease;
+      }
+
+      a:hover {
+        color: var(--color-accent);
+      }
+
+      @media (max-width: 768px) {
+        body {
+          padding: 2rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        body {
+          padding: 1rem;
+          font-size: 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+  <div class="homepage">
+    <!-- Profile Card -->
+    <section class="card profile-card">
+      <h1 class="site-title">Alleya<br/>Hanifa</h1>
+      
+      <div class="profile-links">
+        <a href="/about">About</a>
+        <span class="separator">-</span>
+        <a href="/now">Now</a>
+      </div>
+
+      <!-- Status.cafe Widget -->
+      <div class="status-widget">
+        <p class="status-title">A fleeting thought:</p>
+        <div id="statuscafe-content">
+          <p class="status-loading">Loading status...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- OpenStories Section -->
+    <section class="card stories-card">
+      <h2>
+        <a href="/stories">Stories</a>
+      </h2>
+      <p class="card-description">Daily ephemeral moments, like the good old days.</p>
+      <div class="stories-preview">
+        <div class="story-circle empty">
+          <span class="time-label">24h</span>
+        </div>
+        <div class="story-circle">
+          <span class="category-label">Life</span>
+          <span class="count">×12</span>
+        </div>
+        <div class="story-circle">
+          <span class="category-label">Travel</span>
+          <span class="count">×8</span>
+        </div>
+      </div>
+      <a href="/stories" class="view-all">View all stories →</a>
+    </section>
+
+    <!-- 3-Column Grid for Recent Writing, Postcard, and Music -->
+    <div class="three-column-grid" data-orientation={featuredPhoto?.data.orientation || 'landscape'}>
+      <!-- Recent Writing -->
+      <section class="card recent-posts-card">
+        <h2>
+          <span class="badge">On my mind lately...</span>
+        </h2>
+        <div class="posts-list">
+          {recentWriting.slice(0, featuredPhoto?.data.orientation === 'portrait' ? 2 : 1).map(post => (
+            <article class="post-item">
+              <h3>
+                <a href={`/writing/${post.slug}`}>{post.data.title}</a>
+              </h3>
+              <time datetime={post.data.date.toISOString()}>
+                {post.data.date.toLocaleDateString('en-US', {
+                  day: 'numeric',
+                  month: 'short',
+                  year: 'numeric'
+                })}
+              </time>
+              {post.data.excerpt && (
+                <p class="excerpt">{post.data.excerpt}</p>
+              )}
+            </article>
+          ))}
+        </div>
+        <a href="/writing" class="view-all">See more posts →</a>
+      </section>
+
+      <!-- Featured Postcard -->
+      {featuredPhoto && (
+        <section class="card postcard-card" data-orientation={featuredPhoto.data.orientation || 'landscape'}>
+          <div class="postcard-badge">Featured postcard</div>
+          <div class="postcard-link-wrapper">
+            <Image 
+              src={featuredPhoto.data.image} 
+              alt={featuredPhoto.data.title}
+              class="postcard-image"
+            />
+            <a href="/photography" class="postcard-view-all">See all postcards →</a>
+          </div>
+        </section>
+      )}
+
+      <!-- Latest Music -->
+      {latestMusic && (
+        <section class="card music-card">
+          <h2>
+            <a href="/music">Latest song cover</a>
+          </h2>
+          <div class="music-content">
+            <latestMusic.Content />
+          </div>
+          <a href="/music" class="view-all">See all covers →</a>
+        </section>
+      )}
+    </div>
+
+    <!-- Oddly Specific Pages -->
+    <section class="card misc-card">
+      <h2>Oddly specific pages</h2>
+      <ul class="misc-links">
+        <li><a href="/paid-and-loved">Paid money and loved it</a></li>
+        <li><a href="/tea-tags">Tea tags</a></li>
+        <li><a href="/cats">[WIP] To all the cats 🐈 I've met before</a></li>
+      </ul>
+    </section>
+
+    <!-- Guestbook -->
+    <section class="card guestbook-card">
+      <h2>
+        <a href="/guestbook">Guestbook 💬</a>
+      </h2>
+      <div class="guestbook-embed">
+        <iframe 
+          src="https://www5.cbox.ws/box/?boxid=956980&boxtag=1s5lqt" 
+          width="100%" 
+          height="450" 
+          allowtransparency="yes" 
+          frameborder="0" 
+          marginheight="0" 
+          marginwidth="0" 
+          scrolling="auto">
+        </iframe>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // Status.cafe integration
+    async function loadStatus() {
+      try {
+        const response = await fetch('https://status.cafe/users/hanifalleya/status.json');
+        const data = await response.json();
+        
+        const container = document.getElementById('statuscafe-content');
+        if (data && data.content) {
+          container.innerHTML = `
+            <p class="status-content">
+              <span class="status-emoji">${data.emoji || '🤓'}</span>
+              <span class="status-time">${data.relative_time || ''}</span>
+            </p>
+            <p class="status-text">${data.content}</p>
+          `;
+        }
+      } catch (error) {
+        console.error('Failed to load status:', error);
+      }
+    }
+
+    loadStatus();
+  </script>
+
+  <style>
+    .homepage {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* Card Styling */
+    .card {
+      background: var(--color-cream);
+      border: 2px solid var(--color-text);
+      border-radius: 12px;
+      padding: 2rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .card h2 {
+      margin-top: 0;
+      margin-bottom: 1.5rem;
+      font-size: 1.5rem;
+    }
+
+    .card h2 a {
+      color: var(--color-text);
+      text-decoration: none;
+    }
+
+    .card h2 a:hover {
+      color: var(--color-primary);
+    }
+
+    /* Profile Card */
+    .profile-card {
+      grid-column: span 1;
+    }
+
+    .site-title {
+      font-size: 3rem;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+      font-weight: 700;
+      color: var(--color-primary);
+      text-shadow: 2px 2px 0 var(--color-accent);
+    }
+
+    .profile-links {
+      font-family: var(--font-ui);
+      font-size: 1rem;
+      margin-bottom: 2rem;
+      opacity: 0.8;
+    }
+
+    .profile-links a {
+      text-decoration: underline;
+      font-weight: 600;
+    }
+
+    .separator {
+      margin: 0 0.5rem;
+    }
+
+    .status-widget {
+      background: rgba(255, 255, 255, 0.5);
+      border: 1px solid var(--color-text);
+      border-radius: 8px;
+      padding: 1rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+    }
+
+    .status-title {
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      opacity: 0.8;
+    }
+
+    .status-content {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      margin-bottom: 0.5rem;
+      opacity: 0.7;
+    }
+
+    .status-emoji {
+      font-size: 1.2rem;
+    }
+
+    .status-time {
+      font-size: 0.85rem;
+    }
+
+    .status-text {
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    /* Badge */
+    .badge {
+      background: var(--color-accent);
+      color: white;
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      font-family: var(--font-ui);
+    }
+
+    /* Stories Card */
+    .stories-card {
+      grid-column: span 2;
+    }
+
+    /* Three Column Grid for Writing/Postcard/Music */
+    .three-column-grid {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    .three-column-grid .card {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .three-column-grid .postcard-card {
+      display: block;
+    }
+
+    .card-description {
+      margin-bottom: 1.5rem;
+      opacity: 0.8;
+    }
+
+    .stories-preview {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      overflow-x: auto;
+      padding-bottom: 0.5rem;
+    }
+
+    .story-circle {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 3px solid var(--color-text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-family: var(--font-ui);
+      transition: border-color 0.2s ease;
+      cursor: pointer;
+    }
+
+    .story-circle:hover {
+      border-color: var(--color-primary);
+    }
+
+    .story-circle.empty {
+      opacity: 0.3;
+      position: relative;
+    }
+
+    .story-circle.empty::before {
+      content: '';
+      position: absolute;
+      width: 90%;
+      height: 2px;
+      background: var(--color-text);
+      transform: rotate(-45deg);
+    }
+
+    .time-label {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .category-label {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .count {
+      font-size: 0.9rem;
+      opacity: 0.7;
+      margin-top: 0.25rem;
+    }
+
+    /* Recent Posts Card */
+    .recent-posts-card {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .recent-posts-card h2 {
+      flex-shrink: 0;
+    }
+
+    .posts-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+      flex: 1;
+    }
+
+    .recent-posts-card .view-all {
+      flex-shrink: 0;
+      margin-top: auto;
+    }
+
+    .post-item h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.3rem;
+      margin-top: 0;
+    }
+
+    .post-item h3 a {
+      color: var(--color-text);
+      text-decoration: none;
+    }
+
+    .post-item h3 a:hover {
+      color: var(--color-primary);
+    }
+
+    .post-item time {
+      font-family: var(--font-ui);
+      font-size: 0.85rem;
+      opacity: 0.6;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .post-item .excerpt {
+      font-size: 0.95rem;
+      opacity: 0.8;
+      margin: 0;
+    }
+
+    /* Postcard Card */
+    .postcard-card {
+      grid-column: span 1;
+      padding: 0;
+      overflow: visible;
+      position: relative;
+      background: transparent;
+      border: none;
+    }
+
+    .postcard-card:hover {
+      transform: none;
+      box-shadow: none;
+    }
+
+    .postcard-badge {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      background: var(--color-accent);
+      color: white;
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      font-family: var(--font-ui);
+      z-index: 10;
+    }
+
+    .postcard-link-wrapper {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+
+    .postcard-link-wrapper:hover {
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .postcard-image {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 3/2; /* 6:4 landscape by default */
+      object-fit: cover;
+      display: block;
+      cursor: pointer;
+    }
+
+    /* Portrait postcard */
+    .postcard-card[data-orientation="portrait"] .postcard-image {
+      aspect-ratio: 2/3; /* 4:6 portrait */
+    }
+
+    .postcard-view-all {
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem;
+      background: rgba(255, 255, 255, 0.95);
+      color: var(--color-primary);
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-family: var(--font-ui);
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s ease;
+      border: 1px solid var(--color-text);
+      z-index: 5;
+    }
+
+    .postcard-view-all:hover {
+      background: white;
+      color: var(--color-accent);
+    }
+
+    /* Music Card */
+    .music-card {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .music-card h2 {
+      flex-shrink: 0;
+    }
+
+    .music-content {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      margin-bottom: 1rem;
+    }
+
+    .music-content::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .music-content::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.05);
+      border-radius: 3px;
+    }
+
+    .music-content::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 3px;
+    }
+
+    .music-card .view-all {
+      flex-shrink: 0;
+      margin-top: auto;
+    }
+
+    .music-content :global(iframe) {
+      width: 100%;
+      max-width: 100%;
+      margin: 1rem 0;
+      border-radius: 8px;
+    }
+
+    .music-content :global(audio) {
+      width: 100%;
+      margin: 1rem 0;
+    }
+
+    .music-content :global(p) {
+      margin-bottom: 0.75rem;
+      font-size: 0.95rem;
+    }
+
+    .music-content :global(h2),
+    .music-content :global(h3) {
+      font-size: 1.1rem;
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Misc Links Card */
+    .misc-card {
+      grid-column: span 1;
+    }
+
+    .misc-links {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .misc-links li {
+      margin: 0;
+    }
+
+    .misc-links a {
+      font-size: 1rem;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+    }
+
+    .misc-links a::before {
+      content: '▸';
+      margin-right: 0.5rem;
+      color: var(--color-accent);
+    }
+
+    .misc-links a:hover {
+      text-decoration: underline;
+    }
+
+    /* Guestbook Card */
+    .guestbook-card {
+      grid-column: span 1;
+    }
+
+    .guestbook-embed {
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--color-text);
+    }
+
+    .guestbook-embed iframe {
+      display: block;
+    }
+
+    /* View All Links */
+    .view-all {
+      display: inline-block;
+      font-family: var(--font-ui);
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--color-primary);
+      text-decoration: none;
+      margin-top: 1rem;
+    }
+
+    .view-all:hover {
+      text-decoration: underline;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .homepage {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        grid-column: span 1 !important;
+      }
+
+      .stories-card {
+        grid-column: span 1 !important;
+      }
+
+      .three-column-grid {
+        grid-template-columns: 1fr;
+        grid-column: span 1;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .homepage {
+        gap: 1.5rem;
+      }
+
+      .card {
+        padding: 1.5rem;
+      }
+
+      .site-title {
+        font-size: 2.5rem;
+      }
+    }
+  </style>
+</body>
 </html>

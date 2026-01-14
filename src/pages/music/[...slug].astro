@@ -1,0 +1,160 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+
+export async function getStaticPaths() {
+  const tracks = await getCollection('music');
+  return tracks.map((track) => ({
+    params: { slug: track.slug },
+    props: track,
+  }));
+}
+
+const track = Astro.props;
+const { Content } = await track.render();
+
+const formattedDate = track.data.date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric'
+});
+---
+
+<BaseLayout title={`${track.data.title} - ${track.data.artist}`}>
+  <article class="track-page">
+    <div class="track-header">
+      {track.data.cover_art && (
+        <div class="cover-art">
+          <Image src={track.data.cover_art} alt={`${track.data.title} cover`} />
+        </div>
+      )}
+      
+      <div class="track-meta">
+        <h1>{track.data.title}</h1>
+        <p class="artist">by {track.data.artist}</p>
+        <time datetime={track.data.date.toISOString()}>{formattedDate}</time>
+
+        {track.data.tags && track.data.tags.length > 0 && (
+          <div class="tags">
+            {track.data.tags.map(tag => (
+              <span class="tag">#{tag}</span>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+
+    {track.data.audio_file && (
+      <div class="audio-player">
+        <audio controls>
+          <source src={track.data.audio_file} type="audio/mpeg" />
+          Your browser does not support the audio element.
+        </audio>
+      </div>
+    )}
+
+    {!track.data.audio_file && (track.data.soundcloud_url || track.data.youtube_url) && (
+      <div class="fallback-links">
+        {track.data.soundcloud_url && (
+          <a href={track.data.soundcloud_url} target="_blank" rel="noopener">
+            Listen on SoundCloud →
+          </a>
+        )}
+        {track.data.youtube_url && (
+          <a href={track.data.youtube_url} target="_blank" rel="noopener">
+            Watch on YouTube →
+          </a>
+        )}
+      </div>
+    )}
+
+    <div class="content">
+      <Content />
+    </div>
+  </article>
+
+  <style>
+    .track-page {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .track-header {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    .cover-art img {
+      width: 100%;
+      height: auto;
+      border: 2px solid var(--color-text);
+    }
+
+    .track-meta h1 {
+      margin-bottom: 0.5rem;
+    }
+
+    .artist {
+      font-family: var(--font-ui);
+      font-size: 1.2rem;
+      opacity: 0.7;
+      margin-bottom: 0.5rem;
+    }
+
+    time {
+      display: block;
+      font-family: var(--font-ui);
+      font-size: 0.9rem;
+      opacity: 0.6;
+      margin-bottom: 1rem;
+    }
+
+    .tags {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      font-family: var(--font-ui);
+      font-size: 0.85rem;
+      margin-top: 1rem;
+    }
+
+    .tag {
+      padding: 0.3rem 0.7rem;
+      background: var(--color-cream);
+      border: 1px solid var(--color-text);
+      border-radius: 3px;
+    }
+
+    .audio-player {
+      margin-bottom: 3rem;
+    }
+
+    .audio-player audio {
+      width: 100%;
+    }
+
+    .fallback-links {
+      margin-bottom: 3rem;
+      font-family: var(--font-ui);
+    }
+
+    .fallback-links a {
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    .content {
+      font-size: 1.1rem;
+      line-height: 1.8;
+    }
+
+    @media (max-width: 768px) {
+      .track-header {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</BaseLayout>

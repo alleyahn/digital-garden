@@ -1,0 +1,180 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+
+// Get all music posts, sorted by date (newest first)
+const tracks = (await getCollection('music')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+
+// Render content for each track
+const tracksWithContent = await Promise.all(
+  tracks.map(async (track) => {
+    const { Content } = await track.render();
+    return {
+      ...track,
+      Content
+    };
+  })
+);
+---
+
+<BaseLayout title="Music">
+  <div class="music-page">
+    <header class="page-header">
+      <h1>Music</h1>
+      <p class="intro">Covers and original recordings.</p>
+    </header>
+
+    <div class="track-list">
+      {tracksWithContent.map((track) => (
+        <article class="track">
+          <div class="track-header">
+            <h2>
+              <a href={`/music/${track.slug}`}>{track.data.title}</a>
+            </h2>
+            <div class="track-meta">
+              <span class="artist">by {track.data.artist}</span>
+              <time datetime={track.data.date.toISOString()}>
+                {track.data.date.toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                })}
+              </time>
+            </div>
+          </div>
+
+          <div class="track-content">
+            <track.Content />
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+
+  <style>
+    .music-page {
+      max-width: 100%;
+      margin: 0 auto;
+      background: var(--color-cream);
+    }
+
+    .page-header {
+      margin-bottom: 3rem;
+    }
+
+    .page-header h1 {
+      margin-bottom: 1rem;
+    }
+
+    .intro {
+      font-size: 1.25rem;
+      opacity: 0.85;
+      line-height: 1.6;
+    }
+
+    .track-list {
+      /* Remove margin: 0 auto to prevent centering */
+    }
+
+    .track {
+      margin-bottom: 4rem;
+      padding-bottom: 4rem;
+      border-bottom: 2px solid var(--color-text);
+    }
+
+    .track:last-child {
+      border-bottom: none;
+    }
+
+    .track-header {
+      margin-bottom: 1.5rem;
+    }
+
+    .track-header h2 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+      margin-top: 0;
+    }
+
+    .track-header h2 a {
+      color: var(--color-text);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .track-header h2 a:hover {
+      color: var(--color-primary);
+    }
+
+    .track-meta {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      font-family: var(--font-ui);
+      font-size: 0.95rem;
+      opacity: 0.7;
+    }
+
+    .artist {
+      font-weight: 500;
+    }
+
+    .track-content {
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+
+    /* Style embedded content */
+    .track-content :global(iframe) {
+      width: 100%;
+      max-width: 100%;
+      margin: 1.5rem 0;
+      border-radius: 8px;
+    }
+
+    .track-content :global(audio) {
+      width: 100%;
+      margin: 1.5rem 0;
+    }
+
+    .track-content :global(p) {
+      margin-bottom: 1rem;
+    }
+
+    .track-content :global(h2),
+    .track-content :global(h3) {
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .intro {
+        font-size: 1.1rem;
+      }
+
+      .track-header h2 {
+        font-size: 1.5rem;
+      }
+
+      .track-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.3rem;
+      }
+
+      .intro {
+        font-size: 1.1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .track-header h2 {
+        font-size: 1.3rem;
+      }
+    }
+  </style>
+</BaseLayout>

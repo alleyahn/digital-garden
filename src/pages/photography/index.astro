@@ -1,0 +1,661 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+
+// Get all photography posts, sorted by date (newest first)
+const photos = (await getCollection('photography')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+
+// Process photos for data attributes
+const photosWithRenderedContent = await Promise.all(
+  photos.map(async (photo) => {
+    const { Content } = await photo.render();
+    return {
+      ...photo,
+      renderedContent: Content
+    };
+  })
+);
+---
+
+<BaseLayout title="Photography">
+  <div class="photography-page">
+    <header class="page-header">
+      <h1>Photography</h1>
+      <p class="intro">Film photography from my travels and daily life.</p>
+    </header>
+
+    <div class="masonry-gallery" id="masonry-gallery">
+      {photosWithRenderedContent.map((photo, index) => {
+        const formattedDate = photo.data.date.toLocaleDateString('en-US', {
+          day: 'numeric',
+          month: 'short',
+          year: 'numeric'
+        });
+        
+        const orientation = photo.data.orientation || 'landscape';
+        
+        return (
+          <div 
+            class="gallery-item" 
+            data-index={index}
+            data-date={formattedDate}
+            data-location={photo.data.location || ''}
+            data-title={photo.data.title}
+            data-orientation={orientation}
+          >
+            <Image 
+              src={photo.data.image} 
+              alt={photo.data.title}
+              loading="lazy"
+            />
+            <div class="story-content" style="display: none;">
+              <photo.renderedContent />
+            </div>
+          </div>
+        );
+      })}
+    </div>
+
+    <!-- Modal for viewing larger postcards -->
+    <div id="postcard-modal" class="modal">
+      <button class="close-modal" aria-label="Close">&times;</button>
+      <div class="modal-content">
+        <div class="postcard" id="postcard">
+          <div class="postcard-front">
+            <img id="modal-image" src="" alt="" />
+          </div>
+          <div class="postcard-back">
+            <div class="postcard-header">
+              <span class="postcard-date" id="modal-date"></span>
+              <span class="postcard-emoji">👨‍🎨</span>
+            </div>
+            <div class="postcard-divider"></div>
+            <div class="postcard-content">
+              <div class="postcard-text" id="modal-story"></div>
+              <div class="postcard-footer">
+                <div class="postcard-location" id="modal-location"></div>
+                <div class="postcard-signature">Alleya</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="flip-button" id="flip-button">
+          <span class="flip-text">Click to read letter</span>
+        </button>
+      </div>
+      <button class="nav-button prev" id="prev-button">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+      <button class="nav-button next" id="next-button">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Simple Masonry Layout Function
+    function layoutMasonry() {
+      const gallery = document.getElementById('masonry-gallery');
+      const items = Array.from(gallery.querySelectorAll('.gallery-item'));
+      const gap = 12;
+      
+      // Get column count from CSS
+      const computedStyle = window.getComputedStyle(gallery);
+      const columnCount = parseInt(computedStyle.getPropertyValue('--columns')) || 4;
+      
+      // Get gallery padding
+      const paddingLeft = parseFloat(computedStyle.paddingLeft);
+      const paddingRight = parseFloat(computedStyle.paddingRight);
+      
+      // Calculate column width (accounting for padding)
+      const galleryWidth = gallery.offsetWidth - paddingLeft - paddingRight;
+      const columnWidth = (galleryWidth - (gap * (columnCount - 1))) / columnCount;
+      
+      // Initialize column heights
+      const columnHeights = Array(columnCount).fill(0);
+      
+      items.forEach((item, index) => {
+        // Find shortest column
+        const shortestColumn = columnHeights.indexOf(Math.min(...columnHeights));
+        
+        // Position item (starting from padding offset)
+        const x = paddingLeft + (shortestColumn * (columnWidth + gap));
+        const y = columnHeights[shortestColumn];
+        
+        item.style.position = 'absolute';
+        item.style.left = `${x}px`;
+        item.style.top = `${y}px`;
+        item.style.width = `${columnWidth}px`;
+        
+        // Update column height (image height + gap)
+        const itemHeight = item.offsetHeight;
+        columnHeights[shortestColumn] += itemHeight + gap;
+      });
+      
+      // Set gallery height
+      const maxHeight = Math.max(...columnHeights);
+      gallery.style.height = `${maxHeight}px`;
+    }
+    
+    // Run layout after images load
+    window.addEventListener('load', layoutMasonry);
+    window.addEventListener('resize', layoutMasonry);
+    
+    // Modal functionality
+    let currentIndex = 0;
+    let isFlipped = false;
+
+    const modal = document.getElementById('postcard-modal');
+    const postcard = document.getElementById('postcard');
+    const modalImage = document.getElementById('modal-image');
+    const modalDate = document.getElementById('modal-date');
+    const modalStory = document.getElementById('modal-story');
+    const modalLocation = document.getElementById('modal-location');
+    const flipButton = document.getElementById('flip-button');
+    const closeButton = document.querySelector('.close-modal');
+    const prevButton = document.getElementById('prev-button');
+    const nextButton = document.getElementById('next-button');
+    const galleryItems = document.querySelectorAll('.gallery-item');
+
+    function openModal(index) {
+      currentIndex = index;
+      isFlipped = false;
+      postcard.classList.remove('flipped');
+      loadPhoto(index);
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+      isFlipped = false;
+      postcard.classList.remove('flipped');
+      postcard.classList.remove('portrait');
+      postcard.classList.remove('landscape');
+    }
+
+    function flipPostcard() {
+      isFlipped = !isFlipped;
+      postcard.classList.toggle('flipped');
+    }
+
+    function showNext() {
+      currentIndex = (currentIndex + 1) % galleryItems.length;
+      isFlipped = false;
+      postcard.classList.remove('flipped');
+      loadPhoto(currentIndex);
+    }
+
+    function showPrev() {
+      currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length;
+      isFlipped = false;
+      postcard.classList.remove('flipped');
+      loadPhoto(currentIndex);
+    }
+
+    function loadPhoto(index) {
+      const item = galleryItems[index];
+      const img = item.querySelector('img');
+      const storyContent = item.querySelector('.story-content');
+      const orientation = item.dataset.orientation || 'landscape';
+      
+      postcard.classList.remove('portrait', 'landscape');
+      postcard.classList.add(orientation);
+      
+      modalImage.src = img.src;
+      modalImage.alt = img.alt;
+      modalDate.textContent = item.dataset.date || '';
+      modalLocation.textContent = item.dataset.location || '';
+      
+      if (storyContent) {
+        modalStory.innerHTML = storyContent.innerHTML;
+      } else {
+        modalStory.textContent = '';
+      }
+    }
+
+    galleryItems.forEach((item, index) => {
+      item.addEventListener('click', () => openModal(index));
+    });
+
+    closeButton.addEventListener('click', closeModal);
+    flipButton.addEventListener('click', flipPostcard);
+    prevButton.addEventListener('click', showNext);
+    nextButton.addEventListener('click', showPrev);
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (!modal.classList.contains('active')) return;
+      
+      if (e.key === 'Escape') closeModal();
+      if (e.key === 'ArrowRight') showNext();
+      if (e.key === 'ArrowLeft') showPrev();
+      if (e.key === ' ') {
+        e.preventDefault();
+        flipPostcard();
+      }
+    });
+
+    postcard.addEventListener('click', (e) => {
+      if (!e.target.closest('.flip-button')) {
+        flipPostcard();
+      }
+    });
+  </script>
+
+  <style>
+    .photography-page {
+      max-width: 100%;
+      margin: 0 auto;
+      background: var(--color-cream);
+    }
+
+    .page-header {
+      margin-bottom: 3rem;
+      padding: 0 3rem;
+    }
+
+    .page-header h1 {
+      margin-bottom: 1rem;
+    }
+
+    .intro {
+      font-size: 1.25rem;
+      opacity: 0.85;
+      line-height: 1.6;
+    }
+
+    /* Masonry Gallery with JavaScript positioning */
+    .masonry-gallery {
+      --columns: 4;
+      position: relative;
+      padding: 0 3rem;
+      margin: 0 auto;
+      max-width: 100%;
+      background: var(--color-cream);
+    }
+
+    .gallery-item {
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+      overflow: hidden;
+      /* JavaScript will add position: absolute, left, top, width */
+    }
+
+    .gallery-item:hover {
+      opacity: 0.85;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+    }
+
+    /* Apply postcard ratios */
+    .gallery-item[data-orientation="landscape"] img {
+      aspect-ratio: 3/2;
+    }
+
+    .gallery-item[data-orientation="portrait"] img {
+      aspect-ratio: 2/3;
+    }
+
+    .gallery-item:not([data-orientation]) img {
+      aspect-ratio: 3/2;
+    }
+
+    .story-content {
+      display: none;
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .close-modal {
+      position: fixed;
+      top: 2rem;
+      right: 2rem;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 3rem;
+      cursor: pointer;
+      z-index: 1002;
+      line-height: 1;
+      padding: 0;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.2s ease;
+    }
+
+    .close-modal:hover {
+      opacity: 0.7;
+    }
+
+    /* Postcard 3D Flip */
+    .postcard {
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
+      cursor: pointer;
+    }
+
+    .postcard.landscape {
+      width: 900px;
+      max-width: 90vw;
+      aspect-ratio: 3/2;
+    }
+
+    .postcard.portrait {
+      width: 600px;
+      max-width: 90vw;
+      aspect-ratio: 2/3;
+    }
+
+    .postcard.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .postcard-front,
+    .postcard-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .postcard-front {
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .postcard-front img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .postcard-back {
+      background: #F0EEE9;
+      transform: rotateY(180deg);
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      font-family: 'Courier New', monospace;
+      box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.1);
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    .postcard-back::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .postcard-back::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.05);
+      border-radius: 3px;
+    }
+
+    .postcard-back::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 3px;
+    }
+
+    .postcard-back::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    .postcard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .postcard-date {
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+
+    .postcard-emoji {
+      font-size: 1.5rem;
+    }
+
+    .postcard-divider {
+      width: 100%;
+      height: 1px;
+      background: repeating-linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0.2) 0,
+        rgba(0, 0, 0, 0.2) 5px,
+        transparent 5px,
+        transparent 10px
+      );
+      margin-bottom: 1.5rem;
+    }
+
+    .postcard-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .postcard-text {
+      font-size: 1rem;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+      font-family: 'Crimson Pro', Georgia, serif;
+    }
+
+    .postcard.portrait .postcard-text {
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .postcard.portrait .postcard-back {
+      padding: 2rem;
+    }
+
+    .postcard-footer {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: flex-end;
+    }
+
+    .postcard-location {
+      font-size: 0.9rem;
+      opacity: 0.7;
+      font-style: italic;
+    }
+
+    .postcard-signature {
+      font-family: 'Brush Script MT', cursive;
+      font-size: 1.8rem;
+      color: var(--color-primary);
+    }
+
+    .postcard.portrait .postcard-signature {
+      font-size: 1.5rem;
+    }
+
+    .flip-button {
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid white;
+      color: white;
+      padding: 0.75rem 2rem;
+      border-radius: 30px;
+      font-family: var(--font-ui);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .flip-button:hover {
+      background: white;
+      color: black;
+    }
+
+    .nav-button {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid white;
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      z-index: 1001;
+    }
+
+    .nav-button:hover {
+      background: white;
+      color: black;
+    }
+
+    .nav-button.prev {
+      left: 2rem;
+    }
+
+    .nav-button.next {
+      right: 2rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .masonry-gallery {
+        --columns: 3;
+        padding: 0 2rem;
+      }
+
+      .page-header {
+        padding: 0 2rem;
+      }
+
+      .postcard.landscape {
+        width: 750px;
+      }
+
+      .postcard.portrait {
+        width: 500px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .masonry-gallery {
+        --columns: 2;
+        padding: 0 1rem;
+      }
+
+      .page-header {
+        padding: 0 1rem;
+      }
+
+      .postcard.landscape {
+        width: 90vw;
+      }
+
+      .postcard.portrait {
+        width: 90vw;
+      }
+
+      .postcard-back {
+        padding: 1.5rem;
+      }
+
+      .postcard-text {
+        font-size: 0.95rem;
+      }
+
+      .postcard-signature {
+        font-size: 1.5rem;
+      }
+
+      .nav-button {
+        width: 40px;
+        height: 40px;
+      }
+
+      .nav-button.prev {
+        left: 1rem;
+      }
+
+      .nav-button.next {
+        right: 1rem;
+      }
+
+      .close-modal {
+        top: 1rem;
+        right: 1rem;
+        font-size: 2rem;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .masonry-gallery {
+        --columns: 1;
+        padding: 0 1rem;
+      }
+
+      .page-header {
+        padding: 0 1rem;
+      }
+    }
+  </style>
+</BaseLayout>
