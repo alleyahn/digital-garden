@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: alleyahn/digital-garden  # e.g., alleya/digital-garden-blog
+  repo: alleyahn/digital-garden
   branch: main
 
 site_url: https://hanifalleya.netlify.app
