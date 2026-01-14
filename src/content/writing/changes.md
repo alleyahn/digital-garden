@@ -1,5 +1,5 @@
 ---
-title: "Songs about changesssss"
+title: "Songs about changes"
 date: 2025-05-31
 type: "journal"
 author: "Alleya Hanifa"
