@@ -1,6 +1,8 @@
 backend:
   name: git-gateway
   branch: main # or master, depending on your repo
+  site_url: https://hanifalleya.netlify.app  # Add this line
+
 
 # Uncomment if using Netlify
 # publish_mode: editorial_workflow

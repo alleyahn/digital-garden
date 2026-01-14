@@ -13,16 +13,19 @@ const allPhotos = await getCollection('photography');
 const featuredPhoto = allPhotos.find(photo => photo.data.featured === true) || 
   allPhotos.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())[0];
 
-// Get latest music track with rendered content
+// Get latest music tracks (2 most recent)
 const allMusic = await getCollection('music');
-const latestMusicEntry = allMusic.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())[0];
-let latestMusic = null;
-if (latestMusicEntry) {
-  const { Content } = await latestMusicEntry.render();
-  latestMusic = {
-    ...latestMusicEntry,
+const latestMusicEntries = allMusic
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 2);
+
+let latestMusicTracks = [];
+for (const entry of latestMusicEntries) {
+  const { Content } = await entry.render();
+  latestMusicTracks.push({
+    ...entry,
     Content
-  };
+  });
 }
 ---
 
@@ -188,13 +191,17 @@ if (latestMusicEntry) {
       )}
 
       <!-- Latest Music -->
-      {latestMusic && (
+      {latestMusicTracks.length > 0 && (
         <section class="card music-card">
           <h2>
-            <a href="/music">Latest song cover</a>
+            <a href="/music">Latest song covers</a>
           </h2>
-          <div class="music-content">
-            <latestMusic.Content />
+          <div class="music-list">
+            {latestMusicTracks.slice(0, featuredPhoto?.data.orientation === 'portrait' ? 2 : 1).map((track) => (
+              <div class="music-item">
+                <track.Content />
+              </div>
+            ))}
           </div>
           <a href="/music" class="view-all">See all covers →</a>
         </section>
@@ -597,25 +604,55 @@ if (latestMusicEntry) {
       flex-shrink: 0;
     }
 
-    .music-content {
+    .music-list {
       flex: 1;
       overflow-y: auto;
       overflow-x: hidden;
-      margin-bottom: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
     }
 
-    .music-content::-webkit-scrollbar {
+    .music-list::-webkit-scrollbar {
       width: 6px;
     }
 
-    .music-content::-webkit-scrollbar-track {
+    .music-list::-webkit-scrollbar-track {
       background: rgba(0, 0, 0, 0.05);
       border-radius: 3px;
     }
 
-    .music-content::-webkit-scrollbar-thumb {
+    .music-list::-webkit-scrollbar-thumb {
       background: rgba(0, 0, 0, 0.2);
       border-radius: 3px;
+    }
+
+    .music-item {
+      flex-shrink: 0;
+    }
+
+    .music-item :global(iframe) {
+      width: 100%;
+      max-width: 100%;
+      margin: 0.5rem 0;
+      border-radius: 8px;
+    }
+
+    .music-item :global(audio) {
+      width: 100%;
+      margin: 0.5rem 0;
+    }
+
+    .music-item :global(p) {
+      margin-bottom: 0.75rem;
+      font-size: 0.95rem;
+    }
+
+    .music-item :global(h2),
+    .music-item :global(h3) {
+      font-size: 1.1rem;
+      margin-top: 0;
+      margin-bottom: 0.5rem;
     }
 
     .music-card .view-all {
