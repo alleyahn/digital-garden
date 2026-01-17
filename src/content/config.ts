@@ -8,6 +8,7 @@ const photographyCollection = defineCollection({
     date: z.date(),
     image: image(),
     orientation: z.enum(['portrait', 'landscape']).optional().default('landscape'),
+    emoji: z.string().optional(),
     camera: z.string().optional(),
     lens: z.string().optional(),
     film: z.string().optional(),
@@ -43,7 +44,7 @@ const musicCollection = defineCollection({
   }),
 });
 
-// Stories collection schema (NEW!)
+// Stories collection schema
 const storiesCollection = defineCollection({
   type: 'content',
   schema: ({ image }) => z.object({

@@ -20,11 +20,11 @@ const photosWithRenderedContent = await Promise.all(
 );
 ---
 
-<BaseLayout title="Photography">
+<BaseLayout title="Postcards">
   <div class="photography-page">
     <header class="page-header">
-      <h1>Photography</h1>
-      <p class="intro">Film photography from my travels and daily life.</p>
+      <h1>Postcards</h1>
+      <p class="intro">Postcards from my travels or mundane life, near or far.</p>
     </header>
 
     <div class="masonry-gallery" id="masonry-gallery">
@@ -36,6 +36,7 @@ const photosWithRenderedContent = await Promise.all(
         });
         
         const orientation = photo.data.orientation || 'landscape';
+        const emoji = photo.data.emoji || '📸';
         
         return (
           <div 
@@ -45,6 +46,7 @@ const photosWithRenderedContent = await Promise.all(
             data-location={photo.data.location || ''}
             data-title={photo.data.title}
             data-orientation={orientation}
+            data-emoji={emoji}
           >
             <Image 
               src={photo.data.image} 
@@ -66,11 +68,12 @@ const photosWithRenderedContent = await Promise.all(
         <div class="postcard" id="postcard">
           <div class="postcard-front">
             <img id="modal-image" src="" alt="" />
+            <img src="/src/content/clicktoflip.svg" alt="Click to flip" class="flip-indicator" />
           </div>
           <div class="postcard-back">
             <div class="postcard-header">
               <span class="postcard-date" id="modal-date"></span>
-              <span class="postcard-emoji">👨‍🎨</span>
+              <span class="postcard-emoji" id="modal-emoji"></span>
             </div>
             <div class="postcard-divider"></div>
             <div class="postcard-content">
@@ -82,9 +85,6 @@ const photosWithRenderedContent = await Promise.all(
             </div>
           </div>
         </div>
-        <button class="flip-button" id="flip-button">
-          <span class="flip-text">Click to read letter</span>
-        </button>
       </div>
       <button class="nav-button prev" id="prev-button">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -158,7 +158,7 @@ const photosWithRenderedContent = await Promise.all(
     const modalDate = document.getElementById('modal-date');
     const modalStory = document.getElementById('modal-story');
     const modalLocation = document.getElementById('modal-location');
-    const flipButton = document.getElementById('flip-button');
+    const modalEmoji = document.getElementById('modal-emoji');
     const closeButton = document.querySelector('.close-modal');
     const prevButton = document.getElementById('prev-button');
     const nextButton = document.getElementById('next-button');
@@ -206,6 +206,7 @@ const photosWithRenderedContent = await Promise.all(
       const img = item.querySelector('img');
       const storyContent = item.querySelector('.story-content');
       const orientation = item.dataset.orientation || 'landscape';
+      const emoji = item.dataset.emoji || '📸';
       
       postcard.classList.remove('portrait', 'landscape');
       postcard.classList.add(orientation);
@@ -214,6 +215,7 @@ const photosWithRenderedContent = await Promise.all(
       modalImage.alt = img.alt;
       modalDate.textContent = item.dataset.date || '';
       modalLocation.textContent = item.dataset.location || '';
+      modalEmoji.textContent = emoji;
       
       if (storyContent) {
         modalStory.innerHTML = storyContent.innerHTML;
@@ -227,7 +229,6 @@ const photosWithRenderedContent = await Promise.all(
     });
 
     closeButton.addEventListener('click', closeModal);
-    flipButton.addEventListener('click', flipPostcard);
     prevButton.addEventListener('click', showNext);
     nextButton.addEventListener('click', showPrev);
 
@@ -250,9 +251,7 @@ const photosWithRenderedContent = await Promise.all(
     });
 
     postcard.addEventListener('click', (e) => {
-      if (!e.target.closest('.flip-button')) {
-        flipPostcard();
-      }
+      flipPostcard();
     });
   </script>
 
@@ -292,7 +291,6 @@ const photosWithRenderedContent = await Promise.all(
       cursor: pointer;
       transition: opacity 0.2s ease;
       overflow: hidden;
-      /* JavaScript will add position: absolute, left, top, width */
     }
 
     .gallery-item:hover {
@@ -333,22 +331,19 @@ const photosWithRenderedContent = await Promise.all(
       height: 100%;
       background: rgba(0, 0, 0, 0.95);
       z-index: 1000;
-      align-items: center;
-      justify-content: center;
     }
 
     .modal.active {
-      display: flex;
+      display: block;
     }
 
     .modal-content {
-      position: relative;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       max-width: 90vw;
       max-height: 90vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2rem;
     }
 
     .close-modal {
@@ -381,6 +376,7 @@ const photosWithRenderedContent = await Promise.all(
       transform-style: preserve-3d;
       transition: transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
       cursor: pointer;
+      margin: 0;
     }
 
     .postcard.landscape {
@@ -402,11 +398,12 @@ const photosWithRenderedContent = await Promise.all(
     .postcard-front,
     .postcard-back {
       position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
       backface-visibility: hidden;
       border-radius: 8px;
-      overflow: hidden;
     }
 
     .postcard-front {
@@ -414,13 +411,27 @@ const photosWithRenderedContent = await Promise.all(
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: visible;
     }
 
-    .postcard-front img {
+    .postcard-front img:not(.flip-indicator) {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
+      border-radius: 8px;
+    }
+
+    /* Flip indicator SVG positioning */
+    .flip-indicator {
+      position: absolute;
+      bottom: -15px;
+      right: -15px;
+      width: 70px;
+      height: 70px;
+      pointer-events: none;
+      z-index: 10;
+      object-fit: contain;
     }
 
     .postcard-back {
@@ -429,28 +440,10 @@ const photosWithRenderedContent = await Promise.all(
       padding: 2.5rem;
       display: flex;
       flex-direction: column;
-      font-family: 'Courier New', monospace;
+      font-family: 'Playpen Sans', cursive;
       box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.1);
-      overflow-y: auto;
-      overflow-x: hidden;
-    }
-
-    .postcard-back::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    .postcard-back::-webkit-scrollbar-track {
-      background: rgba(0, 0, 0, 0.05);
-      border-radius: 3px;
-    }
-
-    .postcard-back::-webkit-scrollbar-thumb {
-      background: rgba(0, 0, 0, 0.2);
-      border-radius: 3px;
-    }
-
-    .postcard-back::-webkit-scrollbar-thumb:hover {
-      background: rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      border-radius: 8px;
     }
 
     .postcard-header {
@@ -458,6 +451,7 @@ const photosWithRenderedContent = await Promise.all(
       justify-content: space-between;
       align-items: center;
       margin-bottom: 1.5rem;
+      flex-shrink: 0;
     }
 
     .postcard-date {
@@ -480,6 +474,7 @@ const photosWithRenderedContent = await Promise.all(
         transparent 10px
       );
       margin-bottom: 1.5rem;
+      flex-shrink: 0;
     }
 
     .postcard-content {
@@ -487,18 +482,20 @@ const photosWithRenderedContent = await Promise.all(
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      overflow: hidden;
     }
 
+    /* Increased caption text sizes for ~600 characters */
     .postcard-text {
-      font-size: 1rem;
-      line-height: 1.7;
+      font-size: 1.3rem;
+      line-height: 1.8;
       margin-bottom: 1.5rem;
-      font-family: 'Crimson Pro', Georgia, serif;
+      font-family: 'Playpen Sans', cursive;
     }
 
     .postcard.portrait .postcard-text {
-      font-size: 0.95rem;
-      line-height: 1.6;
+      font-size: 2rem;
+      line-height: 1.75;
     }
 
     .postcard.portrait .postcard-back {
@@ -526,24 +523,6 @@ const photosWithRenderedContent = await Promise.all(
 
     .postcard.portrait .postcard-signature {
       font-size: 1.5rem;
-    }
-
-    .flip-button {
-      background: rgba(255, 255, 255, 0.1);
-      border: 2px solid white;
-      color: white;
-      padding: 0.75rem 2rem;
-      border-radius: 30px;
-      font-family: var(--font-ui);
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .flip-button:hover {
-      background: white;
-      color: black;
     }
 
     .nav-button {
@@ -595,6 +574,14 @@ const photosWithRenderedContent = await Promise.all(
       .postcard.portrait {
         width: 500px;
       }
+
+      .postcard-text {
+        font-size: 1.1rem;
+      }
+
+      .postcard.portrait .postcard-text {
+        font-size: 1.05rem;
+      }
     }
 
     @media (max-width: 640px) {
@@ -620,11 +607,23 @@ const photosWithRenderedContent = await Promise.all(
       }
 
       .postcard-text {
-        font-size: 0.95rem;
+        font-size: 1.05rem;
+        line-height: 1.7;
+      }
+
+      .postcard.portrait .postcard-text {
+        font-size: 1rem;
       }
 
       .postcard-signature {
         font-size: 1.5rem;
+      }
+
+      .flip-indicator {
+        width: 55px;
+        height: 55px;
+        bottom: -12px;
+        right: -12px;
       }
 
       .nav-button {
@@ -655,6 +654,14 @@ const photosWithRenderedContent = await Promise.all(
 
       .page-header {
         padding: 0 1rem;
+      }
+
+      .postcard-text {
+        font-size: 1rem;
+      }
+
+      .postcard.portrait .postcard-text {
+        font-size: 0.95rem;
       }
     }
   </style>
