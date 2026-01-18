@@ -22,7 +22,6 @@ Aku naik kereta malam pukul 11 malam dari Seoul Station 서울역. Rasanya agak
 
 \[googlemaps https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d808596.4601523551!2d127.44067577729724!3d37.65907895828048!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e6!4m5!1s0x357ca266869b6f27%3A0x2ff1ff2e4fb33dcb!2zU2VvdWwgU3RhdGlvbiwgQ2hlb25ncGEtcm8sIERvbmdqYS1kb25nLCBZb25nc2FuLWd1LCDshJzsmrjtirnrs4Tsi5wgU291dGggS29yZWE!3m2!1d37.553606699999996!2d126.9696195!4m5!1s0x3561c32bc7fb0ce5%3A0x9bfec84e8c73a21c!2sJeongdongjin+Station%2C+Gangdong-myeon%2C+Gangneung-si!3m2!1d37.691459!2d129.032672!5e0!3m2!1sen!2sus!4v1520302356286&w=600&h=450\]Aku duduk di ruang tunggu sendirian dengan perasaan bercampur aduk: bosan sekaligus tak sabar. Di area tunggu, terdapat beberapa minimarket dan toko oleh-oleh lainnya yang sudah tutup karena waktu itu sudah cukup larut. Aku sesekali beranjak dari tempat dudukku untuk ikut segerombol _ajussi_ (panggilan untuk pria paruh baya) yang berkerumun di depan televisi untuk menyaksikan drama televisi yang tengah tayang. Tidak banyak yang bisa dilakukan di Seoul Station bila sudah larut malam.
 
-![](images/20170614_224426-1024x768.jpg)
 
 Ketika sudah bosan berdiri untuk menonton televisi, aku pun duduk kembali. Aku tak bisa terlalu banyak menggunakan ponselku, karena saat itu baterenya cepat habis (baru sadar kalau bocor ketika sampai di Jakarta) dan aku menghemat daya di _powerbank_\-ku untuk esok hari. Maka, aku memilih untuk duduk dan mengobservasi orang-orang di sekitarku.
 
@@ -38,29 +37,20 @@ Akhirnya, kereta mulai bergerak dari Seoul Station tepat pukul 11 malam. Saat it
 
 [https://open.spotify.com/embed?uri=spotify:user:hanifalleya:playlist:6YpswuSHEV8w90oUa2Ox7o&theme=white](https://open.spotify.com/embed?uri=spotify:user:hanifalleya:playlist:6YpswuSHEV8w90oUa2Ox7o&theme=white)Aku terbangun sekitar pukul lima dan aku masih belum bisa melihat apa-apa dari balik jendela. Barulah pada sekitar pukul setengah enam, aku mulai melihat ada semburat keunguan di langit. Sayangnya, kursi yang kudapat menghadap ke Barat. Aku pun tidak bisa menikmati langit pagi itu sepenuhnya. _But it was breathaking_.
 
-\![](images/2017-06-15-06.42.34-1-1024x768.jpg) Dari dalam kereta\[/caption\]
 
 Stasiun Jeongdongjin merupakan stasiun kereta yang terletak tepat dipinggir pantai. Menurut Wikipedia, stasiun ini adalah stasiun yang paling dekat dengan pantai, baik di Korea maupun di dunia. Namun, untuk bisa sampai ke bibir pantai, aku harus keluar dari area stasiun dan masuk dari pintu umum.
 
-\![](images/G0045500-1024x768.jpg) Muka ngantuk tapi senang setelah menempuh perjalanan 6 jam, 5 jam meringkuk seperti bayi di kursi kereta.\[/caption\]
 
-![](images/2017-06-15-10.05.46-1-1024x683.jpg)
 
-\![](images/2017-06-15-09.41.56-1-1024x768.jpg) Taken with my phone\[/caption\]
 
-\![Taken with Fuji 1600 HiSpeed](images/2F2017-08-09-05.35.58-1-1024x667.jpg) Taken with Fuji 1600 HiSpeed\[/caption\]
 
-\![](images/2017-06-19-09.44.54-1-1024x768.jpg) Banyak orang yang menyaksikan matahari terbit juga hari itu.\[/caption\]
 
 Saat itu, aku merasa hangat dan bersyukur bisa menyaksikan sang surya beranjak naik. Rasanya, saat itu semua hal yang membebaniku, semua hal yang membuatku cemas hilang untuk sementara. Mereka semua jadi kerdil apabila dibandingkan dengan laut yang tak berujung.
 
 Duduk di bibir pantai Jeongdongjin hari itu, aku merasa utuh dan dekat dengan-Nya.
 
-\![](images/2F2017-08-09-05.35.56-1-1024x664.jpg) Taken with Fuji 1600 HiSpeed\[/caption\]
 
-\![](images/2F2017-08-05-07.50.39-3-1024x768.jpg) Taken with Fuji 1600 HiSpeed\[/caption\]
 
-![](images/2017-06-15-09.37.56-1-1024x768.jpg)
 
 Aku menghabiskan setidaknya dua jam untuk menyusuri pantai dan mengobrol dengan diriku sendiri. Semakin siang, semakin tak ada orang. Hanya aku dan suara ombak.
 
@@ -68,7 +58,6 @@ Entah berapa kali aku bertanya pada diriku, "jadi maumu apa lin?"
 
 Tak ada yang menjawab. Aku pun tak tahu apa yang kumau.
 
-\![](images/2017-06-15-06.38.09-1-1024x768.jpg) Chilling and filling in journal.\[/caption\]
 
 Sekitar pukul sembilan, aku mengunjungi museum kecil yang terletak tak jauh dari pantai. Museum itu memiliki koleksi tentang apapun yang berhubungan dengan waktu. _Randomly,_ di sana ada gamelan. Entah apa hubungannya, tapi aku senang melihatnya. Seperti bertemu teman sekampung.
 
@@ -76,7 +65,6 @@ _Shuttle bus_ dari Jeongdongjin menuju Gangneung tidak tersedia setiap saat. Se
 
 Seorang _ajumma_ (wanita paruh baya) menyambutku. Di dinding belakangnya, tertumpuk puluhan bungkus mie instan berbagai merk hingga menjulang ke atas. _Ajumma_ dan aku dipisahkan oleh meja yang berisi berbagai perlatan masak-memasak dan makanan. Ada berbagai macam gorengan, oden, teko emas, gelas-gelas kosong, dan televisi kecil yang menayangkan seri drama pagi.
 
-![](images/20170615_112954-1024x768.jpg)
 
 Perjalanan dari Jeongdongjin ke Gangneung membutuhkan waktu sekitar 40 menit dengan disupiri pengemudi yang sepertinya dapat pelatihan dari Fast and Furious. Aku memilih untuk tidur saja dibanding harus menahan rasa mual akibat cara mengemudinya.
 
@@ -102,7 +90,6 @@ Mungkin, bagi orang-orang yang menyebarkan agama seperti mereka dan _ajumma_ d
 
 Pantai yang kudatangi di Gangneung bernama Gyeongpo. Sebenarnya, aku ingin mengunjungi pantai yang terkenal gegara serial Goblin. Namun, ternyata letaknya cukup jauh dan saat itu sudah tengah hari.
 
-![](images/20170615_160512-1024x768.jpg)
 
 Apa yang kulakukan di sana?
 
@@ -116,13 +103,10 @@ Berbulan-bulan kemudian, ketika menonton drama _Because This is My First Life,_
 
 _Later, when I find someone with whom I can share the silence comfortably, I would take him to this beach._
 
-![](images/2017-06-20-07.45.32-1-1024x768.jpg)
 
 Aku pulang setelah matahari terbenam. Tadinya aku menunggu _sunset,_ tapi nampaknya di sisi timur tidak bisa terlihat sebagaimana aku menyaksikan _sunrise_ di pagi itu. Ketika aku menyadari bahwa tak ada _sunset_  di timur, langit sudah terlanjur gelap dan aku tak bisa kemana-mana lagi.
 
-\![](images/2017-06-15-08.45.30-1-768x1024.jpg) Pintu _guest house._ Foto diambil setelah pulang jalan-jalan hari itu.\[/caption\]
 
-\![](images/2017-06-16-01.27.39-1-1024x768.jpg) The Kitchen. Aark Guest House, Gangneung.\[/caption\]
 
 Aku pulang keesokan harinya, menaiki bus terpagi untuk mengejar kereta kembali ke Seoul. Perjalanan pulang lebih membosankan dibandingkan perjalanan menuju Jeongdongjin karena rasanya entah berapa kali aku terbangun dari tidur, aku belum juga sampai di Seoul. Selain itu, aku tak dapat kursi jendela sehingga rasanya bosaaan sekali.
 
