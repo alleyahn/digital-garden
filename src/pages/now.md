@@ -15,25 +15,26 @@ description: What Alleya is currently working on, reading, learning, and doing
   </div>
 </div>
 
-*Last updated: Jan 2026*
+<p class="last-updated"><em>Last updated: May 2025</em></p>
 
 ## Currently working on
 
 - Tweaking my personal website (clearly!)
-- Studying for finals 📚
+- My health
 
 ## Reading/Watching/Listening
 
-- Kris Dayanti.....
+- Kris Dayanti...
 
 ## Eating/drinking
 
-- Martabak :9 
+- Martabak
+- Skyr!!
 
 ## Learning/Trying
 
-- for finals T_T
-- to eat more protein and fiber
+- For finals
+- FINALS!!!!
 
 </div>
 
@@ -42,6 +43,8 @@ description: What Alleya is currently working on, reading, learning, and doing
     max-width: 800px;
     margin: 0 auto;
     padding: 2rem 1rem;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
 
   .status-section {
@@ -64,10 +67,9 @@ description: What Alleya is currently working on, reading, learning, and doing
     margin-bottom: 0.5rem;
   }
 
-  .page-content em {
+  .last-updated {
     color: #666;
     font-size: 0.9rem;
-    display: block;
     margin-bottom: 2rem;
   }
   
@@ -89,6 +91,11 @@ description: What Alleya is currently working on, reading, learning, and doing
   .page-content li {
     margin-bottom: 0.5rem;
   }
+
+  .page-content p {
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
 </style>
 
-<script src="https://status.cafe/current-status.js?name=hanifalleya" defer></script>n
+<script src="https://status.cafe/current-status.js?name=hanifalleya" defer></script>
