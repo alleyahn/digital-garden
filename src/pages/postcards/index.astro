@@ -79,8 +79,8 @@ const photosWithRenderedContent = await Promise.all(
             <div class="postcard-content">
               <div class="postcard-text" id="modal-story"></div>
               <div class="postcard-footer">
-                <div class="postcard-location" id="modal-location"></div>
-                <div class="postcard-signature">Alleya</div>
+                   <div class="postcard-location">Greetings from <span id="modal-location"></span></div>
+                   <div class="postcard-signature">Alleya</div>
               </div>
             </div>
           </div>
@@ -442,7 +442,7 @@ const photosWithRenderedContent = await Promise.all(
       flex-direction: column;
       font-family: 'Playpen Sans', cursive;
       box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
+      overflow: visible;
       border-radius: 8px;
     }
 
@@ -507,6 +507,8 @@ const photosWithRenderedContent = await Promise.all(
       flex-direction: column;
       gap: 1rem;
       align-items: flex-end;
+      padding-bottom: 1rem; /* tambah padding bawah */
+      padding-right: 0.5rem; /* tambah padding kanan */
     }
 
     .postcard-location {
@@ -516,9 +518,10 @@ const photosWithRenderedContent = await Promise.all(
     }
 
     .postcard-signature {
-      font-family: 'Brush Script MT', cursive;
-      font-size: 1.8rem;
+      font-family: 'Homemade Apple', cursive;
+      font-size: 2.2rem; /* naikin dikit */
       color: var(--color-primary);
+      line-height: 1.2;
     }
 
     .postcard.portrait .postcard-signature {
