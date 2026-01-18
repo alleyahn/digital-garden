@@ -1,8 +1,9 @@
 ---
 title: "personal entry #1: regrets"
-date: "2015-04-02"
-categories: 
-  - "tak-berkategori"
+date: 2015-04-02
+type: "journal"
+excerpt: "Tentang menghubungkan titik-titik dalam hidup, mengikuti kata hati, dan menghindari penyesalan di masa depan."
+tags: ["self-reflection", "life-choices", "steve-jobs"]
 ---
 
 Hello. Akhirnya nge-blogging lagi, ya. Hehehe. A few weeks ago, I posted my first FF. Then, a friend asked me if I could post a story I wrote a few years ago. I told her that I deleted the blog and I don’t have a copy of it…

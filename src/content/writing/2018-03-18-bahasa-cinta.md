@@ -1,8 +1,9 @@
 ---
 title: "Bahasa Cinta"
-date: "2018-03-18"
-categories: 
-  - "things-i-happen-to-know"
+date: 2018-03-18
+type: "essay"
+excerpt: "Tentang love languages dari Gary Chapman: lima cara bagaimana seseorang menyampaikan afeksi dalam hubungan interpersonal."
+tags: ["relationships", "love-languages", "communication"]
 ---
 
 Katanya, orang-orang dengan tipe kepribadian INFP gemar sekali memperbaiki diri. Kalau dipikir-pikir, aku pun demikian. Aku senantiasa mencari cara terbaik untuk melakukan semua hal, bahkan untuk hal-hal yang remeh-temeh. Misalnya, suatu hari aku harus membuat banyak sertifikat dan kartu peserta untuk sebuah acara. Memikirkan jumlah peserta yang mendaftar acara tersebut, aku pun berpikir bahwa tidak mungkin aku mengisi satu per satu kolom nama dan asal universitas peserta secara manual. Aku tahu cara melakukannya di Ms. Word, tapi di Photoshop? Lalu aku berpikir, "sekarang abad 21, kan? Nggak mungkin, lah, nggak ada cara otomatis untuk mengerjakan kerjaan seperti itu." Akhirnya setelah _googling_ sedikit,  akhirnya aku menemukan cara untuk melakukannya secara otomatis di Photoshop dengan data yang dipasok dari dokumen Excel. Ribuan menit milikku dan para staf pun terselamatkan dari mengerjakan sesuatu yang bisa dikerjakan komputer.

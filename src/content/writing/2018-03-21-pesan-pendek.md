@@ -1,9 +1,9 @@
 ---
 title: "Pesan Pendek"
-date: "2018-03-21"
-categories: 
-  - "self-talk"
-coverImage: "2018-03-18-02.15.46-1-1-min.jpg"
+date: 2018-03-21
+type: "essay"
+excerpt: "Sebuah pesan dari Nabilla sebelum ke Korea: 'Do not panic if life moves in a pace you can't comprehend. You'll get there in time.'"
+tags: ["self-reflection", "korea", "friendship"]
 ---
 
 Di hari keberangkatanku ke Korea, teman-teman terdekatku datang ke bandara untuk menyampaikan selamat tinggal. Mereka datang dan memberiku hadiah berupa _scrapbook_ berisi foto-fotoku, sebutir vitamin, satu _sachet_ Adem Sari yang bungkusnya sekarang sudah menggelembung, dan yang paling penting adalah pesan-pesan dari teman-teman sejurusanku. _**Ditulis tangan**_. Aku senang sekali menerima hadiah itu. _It had been awhile since I received anything hand-made and handwritten._ Belum lagi saat itu perkuliahan di kampus sudah dimulai dan aku yakin teman-temanku sudah disibukkan oleh tugas-tugas kuliah. (Terima kasih, ya <3)

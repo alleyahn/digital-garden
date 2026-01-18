@@ -1,8 +1,9 @@
 ---
 title: "My K-Pop Theory: Why K-Pop is likeable"
-date: "2012-06-23"
-categories: 
-  - "tak-berkategori"
+date: 2012-06-23
+type: "journal"
+excerpt: "My theory on why K-Pop is likeable, especially by Asians. It's about shared taste and western pop influence."
+tags: ["k-pop", "music", "theory"]
 ---
 
 at least by Asian.  

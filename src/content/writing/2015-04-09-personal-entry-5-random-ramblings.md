@@ -1,8 +1,9 @@
 ---
 title: "personal entry #5: random ramblings"
-date: "2015-04-09"
-categories: 
-  - "tak-berkategori"
+date: 2015-04-09
+type: "journal"
+excerpt: "Kita tidak pernah siap untuk apapun. The world spins madly on, time waits for no one."
+tags: ["college", "uncertainty", "growing-up"]
 ---
 
 Hai. Tulisan ini diketik di kampus, tepatnya di SBAL tercinta. Barusan ada senior-senior yang sudah lulus keluar-masuk PPAA. Aku berpikir, “wah beberapa tahun lagi aku yang begitu.”

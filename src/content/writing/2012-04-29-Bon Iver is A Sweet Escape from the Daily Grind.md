@@ -1,6 +1,9 @@
 ---
-date: "2012-04-29"
-title: Bon Iver is A Sweet Escape from the Daily Grind
+title: "Bon Iver is A Sweet Escape from the Daily Grind"
+date: 2012-04-29
+type: "essay"
+excerpt: "Bon Iver's self-titled album offers a magnificent musical journey. A sweet escape from daily routines through authentic, detailed music."
+tags: ["music", "bon-iver", "album-review"]
 ---
 
 *Published on the Student Globe April 29 2012*

@@ -1,8 +1,9 @@
 ---
 title: "Kapan, sih, kita pernah siap akan apapun?"
-date: "2018-03-15"
-categories: 
-  - "self-talk"
+date: 2018-03-15
+type: "essay"
+excerpt: "Tentang tidak pernah benar-benar siap untuk apapun. Dari SMA hingga kuliah, mencoba hal baru dengan mindset 'you'll never gonna go if you don't go now'."
+tags: ["growing-up", "readiness", "college"]
 ---
 
 Waktu aku kelas satu SMA, aku ingat berjalan di lorong sekolahku sambil menatap tulisan nama sekolahku di lantai lapangan. Tidak ada siapapun kecuali aku di lorong itu. Lapangan pun kosong, tak ada kelas yang memakainya untuk pelajaran olahraga.

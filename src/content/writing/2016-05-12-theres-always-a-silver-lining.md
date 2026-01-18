@@ -1,8 +1,9 @@
 ---
-title: "There’s always a silver lining"
-date: "2016-05-12"
-categories: 
-  - "tak-berkategori"
+title: "There's always a silver lining"
+date: 2016-05-12
+type: "journal"
+excerpt: "About trust issues, building walls, and discovering that there are people who truly care behind those walls I've built."
+tags: ["vulnerability", "trust", "self-reflection"]
 ---
 
 in every bad thing that happened to you.

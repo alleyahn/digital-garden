@@ -1,8 +1,9 @@
 ---
 title: "Kemana kita pergi?"
-date: "2015-03-02"
-categories: 
-  - "tak-berkategori"
+date: 2015-03-02
+type: "journal"
+excerpt: "Puisi tentang kereta tanpa tujuan yang jelas. Tentang ketakutan tersesat dan keberanian untuk melompat."
+tags: ["poetry", "metaphor", "uncertainty"]
 ---
 
 Kemana kita pergi, wahai Pak Masinis?

@@ -1,10 +1,9 @@
 ---
 title: "Creeping Loneliness"
-date: "2018-04-18"
-categories: 
-  - "self-talk"
-tags: 
-  - "podcast"
+date: 2018-04-18
+type: "essay"
+excerpt: "About the early internet days, Multiply, making friends online, and how podcasts help with creeping loneliness."
+tags: ["internet", "loneliness", "podcast"]
 ---
 
 When I was younger, I would list "surfing the internet" as one of my hobbies.

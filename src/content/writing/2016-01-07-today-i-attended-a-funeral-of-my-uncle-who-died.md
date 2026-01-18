@@ -1,7 +1,9 @@
 ---
-date: "2016-01-07"
-categories: 
-  - "tak-berkategori"
+title: "Today I attended a funeral"
+date: 2016-01-07
+type: "journal"
+excerpt: "Attending my uncle's funeral and reflecting on marriage as a lifetime commitment. Will I be capable of loving someone that greatly?"
+tags: ["family", "loss", "love"]
 ---
 
 Today, I attended a funeral of my uncle who died on his wife’s birthday. He had been ill for a year and half, complications of various diseases. Before he got ill, it was his wife who got sick. He stayed by her side until she completely recovered.

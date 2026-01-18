@@ -1,8 +1,9 @@
 ---
 title: "personal entry #2"
-date: "2015-04-03"
-categories: 
-  - "tak-berkategori"
+date: 2015-04-03
+type: "journal"
+excerpt: "Menemukan atau mencari? Tentang dua orang yang bertemu karena saling menemukan vs sama-sama selesai mencari."
+tags: ["relationships", "philosophy", "self-reflection"]
 ---
 
 Lagi banyak yang ingin disampaikan. So here it is, personal entry #2. 
