@@ -180,14 +180,21 @@ const { title, description = "A digital garden exploring photography, writing, a
     <div class="site-container">
       <header class="site-header">
         <nav class="main-nav">
-          <ul>
-            <li><a href="/" class="nav-link">home</a></li>
-            <li><a href="/postcards" class="nav-link">postcards</a></li>
-            <li><a href="/writing" class="nav-link">writing</a></li>
-            <li><a href="/music" class="nav-link">music</a></li>
-            <li><a href="/about" class="nav-link">about</a></li>
-          </ul>
-        </nav>
+  <ul>
+    <li><a href="/" class="nav-link">home</a></li>
+    <li><a href="/postcards" class="nav-link">postcards</a></li>
+    <li><a href="/writing" class="nav-link">writing</a></li>
+    <li><a href="/music" class="nav-link">music</a></li>
+    <li class="dropdown">
+      <a href="#" class="nav-link dropdown-toggle">oddly specific</a>
+      <ul class="dropdown-menu">
+        <li><a href="/tea-tags">tea tags</a></li>
+        <li><a href="/maps">maps</a></li>
+      </ul>
+    </li>
+    <li><a href="/about" class="nav-link">about</a></li>
+  </ul>
+</nav>
       </header>
 
       <main class="site-main">
@@ -254,6 +261,69 @@ const { title, description = "A digital garden exploring photography, writing, a
       .nav-link:hover::after {
         width: 100%;
       }
+
+      /* Dropdown Styles */
+.dropdown {
+  position: relative;
+}
+
+.dropdown-toggle::after {
+  content: ' ▾';
+  font-size: 0.8em;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: var(--color-salmon);
+  padding: 0.75rem 0;
+  min-width: 150px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.2s ease;
+  list-style: none;
+  margin: 0.5rem 0 0 0;
+  z-index: 100;
+}
+
+.dropdown:hover .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-menu li {
+  margin: 0;
+}
+
+.dropdown-menu a {
+  display: block;
+  padding: 0.25rem 1rem;
+  color: var(--color-text);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  position: relative;
+}
+
+.dropdown-menu a::after {
+  content: '';
+  position: absolute;
+  bottom: 0.15rem;
+  left: 1rem;
+  right: 1rem;
+  height: 1px;
+  background: var(--color-text);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.dropdown-menu a:hover::after {
+  opacity: 1;
+}
 
       .site-main {
         flex: 1;
