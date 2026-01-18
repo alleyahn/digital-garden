@@ -15,25 +15,25 @@ description: What Alleya is currently working on, reading, learning, and doing
   </div>
 </div>
 
-*Last updated: May 2025*
+*Last updated: Jan 2026*
 
 ## Currently working on
 
 - Tweaking my personal website (clearly!)
-- Preparing for master's degree
+- Studying for finals 📚
 
 ## Reading/Watching/Listening
 
-- no na 🌺
+- Kris Dayanti.....
 
 ## Eating/drinking
 
-- Eating all the Indonesian food I can stuff myself with until then.
+- Martabak :9 
 
 ## Learning/Trying
 
-- Dutch, so I can find a part-time job.
-- For that purpose, I'll probably also take barista classes…
+- for finals T_T
+- to eat more protein and fiber
 
 </div>
 
@@ -91,4 +91,4 @@ description: What Alleya is currently working on, reading, learning, and doing
   }
 </style>
 
-<script src="https://status.cafe/current-status.js?name=hanifalleya" defer></script>
+<script src="https://status.cafe/current-status.js?name=hanifalleya" defer></script>n
