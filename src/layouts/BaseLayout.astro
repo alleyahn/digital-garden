@@ -14,28 +14,37 @@ const { title, description = "A digital garden exploring photography, writing, a
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <title>{title}</title>
+    
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@100..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@100..800&family=Playwrite+CO:wght@100..400&display=swap" rel="stylesheet">
+    
     <style is:global>
-      /* CSS Variables */
+      /* CSS Variables - Updated to match homepage */
       :root {
-        --color-primary: #215DB1;
-        --color-cream: #F0EEE9;
-        --color-accent: #DB4E66;
+        --color-cream: #F7E2D2;
+        --color-pink: #F7E6EA;
+        --color-salmon: #FB8484;
+        --color-salmon-dark: #d97373;
+        --color-blue: #3370C6;
+        --color-yellow: #FCFADE;
+        --color-mint: #E6F5E6;
         --color-text: #1a1a1a;
-        --font-body: 'Crimson Pro', Georgia, serif;
-        --font-ui: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+        --color-text-secondary: #666666;
+        --color-primary: #215DB1;
+        --color-accent: #DB4E66;
+        --color-link: #215DB1;
+        --color-light-gray: #F0F0F0;
+        
+        --font-mono: 'Geist Mono', 'Courier New', monospace;
+        --font-sans: 'Instrument Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        --font-body: 'Instrument Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        --font-ui: 'Instrument Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        
         --max-width: 1200px;
         --spacing-unit: 1rem;
-      }
-
-      [data-theme="dark"] {
-        --color-cream: #1a1a1a;
-        --color-text: #F0EEE9;
-        --color-primary: #4a8ed9;
-        --color-accent: #ff6b85;
       }
 
       /* Reset & Base Styles */
@@ -50,18 +59,18 @@ const { title, description = "A digital garden exploring photography, writing, a
       }
 
       body {
-        font-family: var(--font-body);
+        font-family: var(--font-sans);
         background: var(--color-cream);
         color: var(--color-text);
         line-height: 1.7;
-        font-size: 18px;
+        font-size: 16px;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
       }
 
       /* Typography */
       h1, h2, h3, h4, h5, h6 {
-        font-family: var(--font-body);
+        font-family: var(--font-sans);
         font-weight: 700;
         line-height: 1.2;
         margin-bottom: 1rem;
@@ -90,7 +99,7 @@ const { title, description = "A digital garden exploring photography, writing, a
       }
 
       a {
-        color: var(--color-primary);
+        color: var(--color-link);
         text-decoration: none;
         transition: color 0.2s ease;
       }
@@ -130,7 +139,7 @@ const { title, description = "A digital garden exploring photography, writing, a
 
       /* Code */
       code {
-        font-family: 'Monaco', 'Courier New', monospace;
+        font-family: var(--font-mono);
         background: rgba(0, 0, 0, 0.05);
         padding: 0.2em 0.4em;
         border-radius: 3px;
@@ -186,7 +195,7 @@ const { title, description = "A digital garden exploring photography, writing, a
       </main>
 
       <footer class="site-footer">
-        <p>A digital garden cultivated with care. No analytics, no tracking, just words and images.</p>
+        <p>A digital garden cultivated with care.</p>
         <p class="footer-links">
           <a href="/writing/rss.xml">RSS (Writing)</a> · 
           <a href="/photography/rss.xml">RSS (Photos)</a> · 
@@ -222,7 +231,7 @@ const { title, description = "A digital garden exploring photography, writing, a
       }
 
       .nav-link {
-        font-family: var(--font-ui);
+        font-family: var(--font-sans);
         font-weight: 600;
         font-size: 1rem;
         text-transform: lowercase;
@@ -254,7 +263,7 @@ const { title, description = "A digital garden exploring photography, writing, a
       .site-footer {
         border-top: 2px solid var(--color-text);
         padding-top: 2rem;
-        font-family: var(--font-ui);
+        font-family: var(--font-sans);
         font-size: 0.9rem;
         opacity: 0.8;
       }
@@ -290,7 +299,7 @@ const { title, description = "A digital garden exploring photography, writing, a
         }
 
         body {
-          font-size: 17px;
+          font-size: 15px;
         }
 
         h1 {
@@ -308,7 +317,7 @@ const { title, description = "A digital garden exploring photography, writing, a
         }
 
         body {
-          font-size: 16px;
+          font-size: 14px;
         }
       }
     </style>
