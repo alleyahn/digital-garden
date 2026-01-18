@@ -35,6 +35,19 @@ const nextTea = currentIndex < allTea.length - 1 ? allTea[currentIndex + 1] : nu
   </head>
   
   <body>
+    <!-- Menu Bar -->
+    <header class="site-header">
+      <nav class="main-nav">
+        <ul>
+          <li><a href="/" class="nav-link">home</a></li>
+          <li><a href="/postcards" class="nav-link">postcards</a></li>
+          <li><a href="/writing" class="nav-link">writing</a></li>
+          <li><a href="/music" class="nav-link">music</a></li>
+          <li><a href="/about" class="nav-link">about</a></li>
+        </ul>
+      </nav>
+    </header>
+
     <div class="container">
       <div class="tea-detail-header">
         <a href="/tea-tags" class="back-link">← Back to collection</a>
@@ -75,12 +88,12 @@ const nextTea = currentIndex < allTea.length - 1 ? allTea[currentIndex + 1] : nu
           <!-- Navigation -->
           <div class="tea-navigation">
             {previousTea && (
-              <a href={`/tea-tags/${previousTea.slug}`} class="nav-link prev-link">
+              <a href={`/tea-tags/${previousTea.slug}`} class="tea-nav-link prev-link">
                 ← {previousTea.data.brand} {previousTea.data.variant}
               </a>
             )}
             {nextTea && (
-              <a href={`/tea-tags/${nextTea.slug}`} class="nav-link next-link">
+              <a href={`/tea-tags/${nextTea.slug}`} class="tea-nav-link next-link">
                 {nextTea.data.brand} {nextTea.data.variant} →
               </a>
             )}
@@ -117,8 +130,65 @@ const nextTea = currentIndex < allTea.length - 1 ? allTea[currentIndex + 1] : nu
         background: var(--color-cream);
         color: var(--color-text);
         line-height: 1.6;
-        padding: 60px 80px;
+        padding: 2rem 3rem;
         font-size: 14px;
+      }
+
+      /* Menu Bar Styles */
+      .site-header {
+        padding: 2rem 3rem;
+        margin-bottom: 4rem;
+        position: relative;
+      }
+
+      .site-header::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 3rem;
+        right: 3rem;
+        height: 2px;
+        background: var(--color-text);
+      }
+
+      .main-nav ul {
+        list-style: none;
+        display: flex;
+        gap: 2rem;
+        flex-wrap: wrap;
+        margin: 0;
+      }
+
+      .main-nav li {
+        margin: 0;
+      }
+
+      .nav-link {
+        font-family: var(--font-sans);
+        font-weight: 600;
+        font-size: 1rem;
+        text-transform: lowercase;
+        letter-spacing: 0.02em;
+        position: relative;
+        padding-bottom: 0.2rem;
+        text-decoration: none;
+        color: var(--color-link);
+        transition: color 0.2s ease;
+      }
+
+      .nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--color-salmon);
+        transition: width 0.3s ease;
+      }
+
+      .nav-link:hover::after {
+        width: 100%;
       }
 
       .container {
@@ -248,7 +318,7 @@ const nextTea = currentIndex < allTea.length - 1 ? allTea[currentIndex + 1] : nu
         border-top: 2px solid var(--color-light-gray);
       }
 
-      .nav-link {
+      .tea-nav-link {
         flex: 1;
         padding: 16px;
         background: white;
@@ -260,7 +330,7 @@ const nextTea = currentIndex < allTea.length - 1 ? allTea[currentIndex + 1] : nu
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
       }
 
-      .nav-link:hover {
+      .tea-nav-link:hover {
         background: var(--color-salmon);
         color: white;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
@@ -274,7 +344,7 @@ const nextTea = currentIndex < allTea.length - 1 ? allTea[currentIndex + 1] : nu
         text-align: right;
       }
 
-      .nav-link:only-child {
+      .tea-nav-link:only-child {
         flex: none;
         max-width: 300px;
       }
@@ -282,7 +352,7 @@ const nextTea = currentIndex < allTea.length - 1 ? allTea[currentIndex + 1] : nu
       /* Responsive */
       @media (max-width: 1024px) {
         body {
-          padding: 40px 20px;
+          padding: 1.5rem 2rem;
         }
 
         .tea-detail-container {
@@ -300,9 +370,23 @@ const nextTea = currentIndex < allTea.length - 1 ? allTea[currentIndex + 1] : nu
         }
       }
 
+      @media (max-width: 768px) {
+        .site-header {
+          margin-bottom: 3rem;
+        }
+
+        .main-nav ul {
+          gap: 1.5rem;
+        }
+
+        .nav-link {
+          font-size: 0.95rem;
+        }
+      }
+
       @media (max-width: 640px) {
         body {
-          padding: 20px;
+          padding: 1rem;
         }
 
         .container {
@@ -337,8 +421,12 @@ const nextTea = currentIndex < allTea.length - 1 ? allTea[currentIndex + 1] : nu
           gap: 12px;
         }
 
-        .nav-link {
+        .tea-nav-link {
           text-align: center !important;
+        }
+
+        .main-nav ul {
+          gap: 1rem;
         }
       }
     </style>

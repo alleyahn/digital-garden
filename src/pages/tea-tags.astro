@@ -25,6 +25,19 @@ const countries = [...new Set(allTea.map(tea => tea.data.country))].sort();
   </head>
   
   <body>
+    <!-- Menu Bar -->
+    <header class="site-header">
+      <nav class="main-nav">
+        <ul>
+          <li><a href="/" class="nav-link">home</a></li>
+          <li><a href="/postcards" class="nav-link">postcards</a></li>
+          <li><a href="/writing" class="nav-link">writing</a></li>
+          <li><a href="/music" class="nav-link">music</a></li>
+          <li><a href="/about" class="nav-link">about</a></li>
+        </ul>
+      </nav>
+    </header>
+
     <div class="container">
       <div class="tea-gallery-container">
         <div class="tea-gallery-header">
@@ -162,8 +175,65 @@ const countries = [...new Set(allTea.map(tea => tea.data.country))].sort();
         background: var(--color-cream);
         color: var(--color-text);
         line-height: 1.6;
-        padding: 60px 80px;
+        padding: 2rem 3rem;
         font-size: 14px;
+      }
+
+      /* Menu Bar Styles */
+      .site-header {
+        padding: 2rem 3rem;
+        margin-bottom: 4rem;
+        position: relative;
+      }
+
+      .site-header::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 3rem;
+        right: 3rem;
+        height: 2px;
+        background: var(--color-text);
+      }
+
+      .main-nav ul {
+        list-style: none;
+        display: flex;
+        gap: 2rem;
+        flex-wrap: wrap;
+        margin: 0;
+      }
+
+      .main-nav li {
+        margin: 0;
+      }
+
+      .nav-link {
+        font-family: var(--font-sans);
+        font-weight: 600;
+        font-size: 1rem;
+        text-transform: lowercase;
+        letter-spacing: 0.02em;
+        position: relative;
+        padding-bottom: 0.2rem;
+        text-decoration: none;
+        color: var(--color-link);
+        transition: color 0.2s ease;
+      }
+
+      .nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--color-salmon);
+        transition: width 0.3s ease;
+      }
+
+      .nav-link:hover::after {
+        width: 100%;
       }
 
       .container {
@@ -363,7 +433,7 @@ const countries = [...new Set(allTea.map(tea => tea.data.country))].sort();
       /* Responsive */
       @media (max-width: 1024px) {
         body {
-          padding: 40px 20px;
+          padding: 1.5rem 2rem;
         }
 
         .tea-grid {
@@ -379,9 +449,23 @@ const countries = [...new Set(allTea.map(tea => tea.data.country))].sort();
         }
       }
 
+      @media (max-width: 768px) {
+        .site-header {
+          margin-bottom: 3rem;
+        }
+
+        .main-nav ul {
+          gap: 1.5rem;
+        }
+
+        .nav-link {
+          font-size: 0.95rem;
+        }
+      }
+
       @media (max-width: 640px) {
         body {
-          padding: 20px;
+          padding: 1rem;
         }
 
         .container {
@@ -429,6 +513,10 @@ const countries = [...new Set(allTea.map(tea => tea.data.country))].sort();
         .tea-grid {
           grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
           gap: 16px;
+        }
+
+        .main-nav ul {
+          gap: 1rem;
         }
       }
     </style>
