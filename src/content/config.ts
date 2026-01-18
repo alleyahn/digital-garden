@@ -60,10 +60,24 @@ const storiesCollection = defineCollection({
   }),
 });
 
+// Tea collection schema
+const teaCollection = defineCollection({
+  type: 'content',
+  schema: ({ image }) => z.object({
+    brand: z.string(),
+    variant: z.string(),
+    image: image(),
+    country: z.string(),
+    teaType: z.string(),
+    alt: z.string().optional(),
+  }),
+});
+
 // Export collections
 export const collections = {
   'photography': photographyCollection,
   'writing': writingCollection,
   'music': musicCollection,
   'stories': storiesCollection,
+  'tea': teaCollection,
 };
