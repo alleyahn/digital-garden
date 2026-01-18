@@ -9,7 +9,6 @@ tags: ["tech", "building"]
 
 Dusting off my personal website is almost like a yearly ritual. Around this time last year, I made my Jekyll-based personal website with the help of ChatGPT. It was okay-ish, but I had a really hard time customising it because Jekyll's limitation. Maybe it was also because of ChatGPT's capability at the time?
 
-![Old website](/assets/blog-images/website-building/old-blog.png)
 *My sad-looking old blog*
 
 So, I tried building a personal website from scratch again this year. Now, I have the assistance of Claude. I really like the result so far, and I can customise it the way I want to. Since I'm having so much fun and momentum, I'm going to walk you through how I built this website with the help of Claude. 
@@ -68,7 +67,6 @@ Two latest blog entries
 
 You can also specify your design preferences, colour palettes, and even attach your sketch/wireframe/website inspo.
 
-![Sketch](/assets/blog-images/website-building/wireframe.png)
 *A sketch/wireframe I gave to Claude*
 
 
@@ -112,7 +110,6 @@ Disclaimer: I will not write about the step-by-step of the web development, but 
 
 'Project' is a feature available on Claude or ChatGPT which helps us organise our work. We can upload documents to a project or connect it with our GitHub repository so that when we start a chat, Claude will always refer to those documents and produce better results, as they have better context. For this purpose, I created a project specifically for a personal website. 
 
-![Projects](/assets/blog-images/website-building/projects.png)
 *A project on Claude*
 
 
@@ -120,7 +117,6 @@ Disclaimer: I will not write about the step-by-step of the web development, but 
 
 I used this opportunity to familiarise myself with web development. Even though Claude does all the heavy work of writing the code, I instructed it to explain things to me so I can learn more about the languages and concepts used. I did it by inserting my preferences in the project instructions.
 
-![Projects](/assets/blog-images/website-building/project instructions.png)
 *Teach me, Claude Senpai!*
 
 ### Start prompting and building
@@ -169,7 +165,6 @@ At times, we will run into problems. The best way to explain the problems we enc
 * pasting the error message encountered
 * … and repeat
 
-![Troubleshooting](/assets/blog-images/website-building/troubleshooting.png) 
 *Me, troubleshooting*
 
 
